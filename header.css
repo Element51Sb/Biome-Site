@@ -1,0 +1,148 @@
+/* Full viewport with no scrolling */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  /* Background video: fixed in the back, sized as a percentage of the viewport height */
+  .bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: auto; /* Adjust this value for your desired vertical size */
+    width: 100%; /* Maintains aspect ratio */
+    z-index: 0; /* Behind other elements */
+  }
+  
+  /* The black bar: height set in vw so horizontal resizes affect vertical size.
+     It has a smooth transition on its height and background opacity. */
+  .black-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30vw;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+    transition: height 1s ease-in-out, background-color 1s ease-in-out;
+    overflow: visible; /* Allow children to overflow */
+  }
+  
+  /* The SVG object is centered and its height matches the black bar’s height */
+  #svgObject {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    height: 30vw;
+    pointer-events: none;
+    z-index: 2;
+    object-fit: cover;
+    transition: height 1.2s ease-in-out;
+  }
+  
+  /* --- Text Reveal Container --- */
+  .quick-text-wrapper {
+    position: absolute;
+    bottom: 2vw; /* keeps it near the bottom of the bar */
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-block;
+    pointer-events: none;
+    z-index: 3;
+  }
+  
+  /* The text is initially completely masked (only a center‐slice is “open”)
+     and then revealed from the center outward via a clip‑path. */
+  .quick-text {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 2vw;
+    color: white;
+    position: relative;
+    /* Start with only a vertical slice (at 50%) visible */
+    clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%);
+    animation: revealText 2s forwards;
+    transition: transform 1s ease-in-out;
+  }
+  
+  @keyframes revealText {
+    0% {
+      clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%);
+    }
+    100% {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+  }
+  
+  /* Extended line overlays that act as an anti‐mask */
+  .line-overlay-left,
+  .line-overlay-right {
+    position: absolute;
+    top: 50%;
+    height: 2px;  /* adjust thickness if needed */
+    background: white;
+    transform: translateY(-50%);
+    transition: width 1s ease-in-out, left 1s ease-in-out, right 1s ease-in-out;
+  }
+  
+  /* Left overlay starts 5vw outside the container */
+  .line-overlay-left {
+    left: -5vw;
+    width: calc(50% + 5vw);
+    animation: gateLeft 2s forwards;
+  }
+  
+  /* Right overlay starts 5vw outside the container */
+  .line-overlay-right {
+    right: -5vw;
+    width: calc(50% + 5vw);
+    animation: gateRight 2s forwards;
+  }
+  
+  /* Animate the left overlay from full length to a final width that leaves a slight gap */
+  @keyframes gateLeft {
+    0% {
+      width: calc(50% + 5vw);
+    }
+    100% {
+      width: 4.5vw;
+    }
+  }
+  
+  /* Animate the right overlay similarly */
+  @keyframes gateRight {
+    0% {
+      width: calc(50% + 5vw);
+    }
+    100% {
+      width: 4.5vw;
+    }
+  }
+  
+  /* For demonstration: on hover, the black bar, SVG, text, and lines animate */
+  .black-bar:hover {
+    height: 35vw;
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .black-bar:hover #svgObject {
+    height: 35vw;
+  }
+  
+  .black-bar:hover .quick-text {
+    transform: scale(1.05);
+  }
+  
+  /* Extend the lines further outward on hover to compensate for text scale */
+  .black-bar:hover .line-overlay-left {
+    left: -6vw;
+    width: 5.5vw;
+  }
+  
+  .black-bar:hover .line-overlay-right {
+    right: -6vw;
+    width: 5.5vw;
+  }  

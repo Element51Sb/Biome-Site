@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Synced SVG Transition with Background Video</title>
+  <link rel="stylesheet" href="header.css" />
+</head>
+<body>
+  <!-- Background video element -->
+  <video class="bg-video" autoplay muted loop>
+    <source src="assets/Alaska.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Black bar container -->
+  <div class="black-bar">
+    <!-- The SVG object (centered and scaling with the black bar) -->
+    <object id="svgObject" type="image/svg+xml" data="title1.svg" preserveAspectRatio="none"></object>
+    <!-- Quick text wrapper containing both the masked text and the white gate overlays -->
+    <div class="quick-text-wrapper">
+      <div class="quick-text">the everything site</div>
+      <!-- Two halves of the horizontal white line overlay -->
+      <div class="line-overlay-left"></div>
+      <div class="line-overlay-right"></div>
+    </div>
+  </div>
+  
+  <!-- Existing scripts remain untouched -->
+  <script src="titleData.js"></script>
+  <script src="titleFX.js"></script>
+  <script src="title3D.js"></script>
+  <script src="titlePulse.js"></script>
+</body>
+</html>
